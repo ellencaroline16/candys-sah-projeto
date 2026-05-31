@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Candy's Sah · Confeitaria Artesanal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* ===================== RESET & VARIÁVEIS ===================== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --roxo:        #6B4C9A;
+      --roxo-dark:   #4E3572;
+      --roxo-light:  #9B7BC8;
+      --roxo-pale:   #F0EBF8;
+      --amarelo:     #F4C842;
+      --amarelo-dark:#D4A820;
+      --amarelo-pale:#FDF6D8;
+      --creme:       #FDFAF3;
+      --creme-dark:  #F0E8D4;
+      --text-dark:   #1E1228;
+      --text-mid:    #5A4070;
+      --text-muted:  #9880B0;
+    }
+
+    html { scroll-behavior: smooth; font-size: 18px; }
+    body {
+      background: var(--creme);
+      color: var(--text-dark);
+      font-family: 'Nunito', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ===================== NAV ===================== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 243, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 3px solid var(--amarelo);
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-logo {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.2rem;
+      color: var(--roxo-dark);
+      font-style: italic;
+      line-height: 1;
+    }
+    .nav-logo span {
+      display: block;
+      font-family: 'Nunito', sans-serif;
+      font-style: normal;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.15rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--text-mid);
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 100px;
+      transition: all 0.25s;
+    }
+    .nav-links a:hover { background: var(--roxo-pale); color: var(--roxo); }
+    .nav-cta { background: var(--roxo) !important; color: #fff !important; }
+    .nav-cta:hover { background: var(--roxo-dark) !important; }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      padding: 3rem 1.5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-blob {
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      background: var(--roxo-pale);
+      border-radius: 50%;
+      z-index: 0;
+      opacity: 0.7;
+    }
+    .hero-bg-dots {
+      position: absolute;
+      bottom: 20px; left: 10px;
+      width: 100px; height: 100px;
+      background-image: radial-gradient(circle, var(--amarelo) 1.5px, transparent 1.5px);
+      background-size: 14px 14px;
+      opacity: 0.35;
+      z-index: 0;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--amarelo);
+      color: var(--text-dark);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.4rem 0.9rem;
+      border-radius: 100px;
+      margin-bottom: 1.2rem;
+    }
+
+    h1.hero-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(2rem, 8vw, 3rem);
+      line-height: 1.15;
+      font-weight: 400;
+      margin-bottom: 0.8rem;
+    }
+    h1.hero-title em { color: var(--roxo); font-style: italic; }
+
+    .hero-quote {
+      background: var(--roxo-pale);
+      border-left: 4px solid var(--roxo);
+      padding: 0.9rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1.2rem;
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--roxo-dark);
+      line-height: 1.55;
+    }
+
+    .hero-desc {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 2rem;
+    }
+
+    .hero-btns { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+    .hero-card {
+      background: var(--roxo-dark);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .hero-card-glow {
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 150px; height: 150px;
+      background: rgba(244, 200, 66, 0.15);
+      border-radius: 50%;
+    }
+    .hero-card-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.5rem;
+    }
+    .hero-card-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.5rem;
+      color: #fff;
+      font-style: italic;
+      margin-bottom: 0.4rem;
+    }
+    .hero-card-sub {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1.5rem;
+    }
+    .hero-card-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .hero-card-badge {
+      background: var(--amarelo);
+      color: var(--text-dark);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.35rem 0.8rem;
+      border-radius: 100px;
+    }
+    .hero-card-badge.ghost {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+    }
+    .hero-chandler {
+      background: rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      margin-top: 1.2rem;
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.5;
+    }
+    .hero-chandler span {
+      display: block;
+      font-family: 'Nunito', sans-serif;
+      font-style: normal;
+      font-size: 0.62rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+    }
+
+    /* ===================== STRIP ===================== */
+    .strip {
+      background: var(--roxo);
+      padding: 0.75rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .strip-track {
+      display: inline-flex;
+      animation: marquee 22s linear infinite;
+    }
+    .strip-item {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      padding: 0 1.2rem;
+      flex-shrink: 0;
+    }
+    .strip-sep { color: var(--amarelo); padding: 0 0.1rem; }
+
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ===================== SEÇÕES GERAIS ===================== */
+    section { padding: 4rem 1.5rem; }
+
+    .eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--roxo);
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    h2.sec-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    h2.sec-title em { font-style: italic; color: var(--roxo); }
+
+    /* ===================== BOTÕES ===================== */
+    .btn-roxo {
+      background: var(--roxo);
+      color: #fff;
+      padding: 0.85rem 1.6rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+    .btn-roxo:hover { background: var(--roxo-dark); }
+
+    .btn-amarelo {
+      background: var(--amarelo);
+      color: var(--text-dark);
+      padding: 0.85rem 1.6rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: all 0.3s;
+      display: inline-block;
+    }
+    .btn-amarelo:hover { background: var(--amarelo-dark); }
+
+    /* ===================== SOBRE ===================== */
+    .sobre { background: #fff; }
+
+    .sobre-quote {
+      background: var(--amarelo-pale);
+      border: 2px solid var(--amarelo);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .sobre-quote p {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    .sobre-quote span {
+      display: block;
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    .sobre p {
+      color: var(--text-mid);
+      line-height: 1.9;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .sobre-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+    .stat {
+      background: var(--roxo-pale);
+      border-radius: 10px;
+      padding: 1.1rem;
+      text-align: center;
+    }
+    .stat-val {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.8rem;
+      color: var(--roxo);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===================== CARDÁPIO ===================== */
+    .cardapio { background: var(--roxo-dark); }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    @media (min-width: 480px) { .card-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 700px) { .card-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .card-full { grid-column: 1 / -1; }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.5rem;
+      border: 2px solid transparent;
+      border-top: 4px solid var(--roxo);
+      transition: all 0.3s;
+    }
+    .card:hover {
+      border-color: var(--roxo);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(107, 76, 154, 0.1);
+    }
+    .card-friends {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 0.7rem;
+      color: var(--roxo-light);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .card-nome {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .card-desc {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+    .card-badge {
+      display: inline-block;
+      margin-top: 0.9rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 0.28rem 0.75rem;
+      border-radius: 100px;
+    }
+    .badge-roxo   { background: var(--roxo-pale);   color: var(--roxo-dark); }
+    .badge-amarelo{ background: var(--amarelo-pale); color: var(--amarelo-dark); }
+    .badge-green  { background: #EAF3DE;             color: #3B6D11; }
+
+    .card-especial {
+      background: var(--roxo-pale);
+      border-top-color: var(--amarelo);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0.6rem;
+      min-height: 180px;
+    }
+
+    .card-bestseller-tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amarelo-dark);
+      background: var(--amarelo-pale);
+      border: 1.5px solid var(--amarelo);
+      padding: 0.2rem 0.7rem;
+      border-radius: 100px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ===================== KITS ===================== */
+    .kits { background: var(--roxo-dark); }
+    .kits .eyebrow { color: var(--amarelo); }
+    .kits h2.sec-title { color: #fff; }
+    .kits h2.sec-title em { color: var(--amarelo); }
+
+    .kits-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    @media (min-width: 500px) { .kits-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 700px) { .kits-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .kit {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(244, 200, 66, 0.25);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+    .kit:hover {
+      background: rgba(255,255,255,0.11);
+      border-color: rgba(244, 200, 66, 0.5);
+    }
+    .kit-icon  { font-size: 1.6rem; margin-bottom: 0.8rem; display: block; }
+    .kit-friends {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 0.7rem;
+      color: rgba(244, 200, 66, 0.7);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .kit-nome  { font-family: 'Libre Baskerville', serif; font-size: 1.05rem; color: #fff; margin-bottom: 0.5rem; }
+    .kit-desc  { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+    .kit-preco { margin-top: 1rem; font-family: 'Libre Baskerville', serif; font-size: 1.05rem; color: var(--amarelo); }
+
+    /* ===================== CONTATO ===================== */
+    .contato { background: #fff; }
+
+    .contato-quote {
+      background: var(--roxo);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .contato-quote-text {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: #fff;
+    }
+    .contato-quote-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.5rem;
+    }
+
+    .contato > p {
+      color: var(--text-mid);
+      line-height: 1.85;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .wpp-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: var(--roxo);
+      color: #fff;
+      padding: 1rem 1.8rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: background 0.3s;
+      margin-bottom: 2rem;
+    }
+    .wpp-btn:hover { background: var(--roxo-dark); }
+
+    .info-box {
+      background: var(--roxo-pale);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1.5px solid rgba(107, 76, 154, 0.15);
+    }
+    .info-row {
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(107, 76, 154, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .info-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--roxo);
+      font-weight: 700;
+    }
+    .info-val  { font-size: 0.88rem; color: var(--text-dark); }
+    .info-note { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: var(--roxo-dark);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      text-align: center;
+    }
+    .footer-logo    { font-family: 'Libre Baskerville', serif; font-style: italic; color: #fff; font-size: 1.2rem; }
+    .footer-friends { font-family: 'Libre Baskerville', serif; font-style: italic; color: var(--amarelo); font-size: 0.82rem; }
+    .footer-copy    { font-size: 0.68rem; color: rgba(255,255,255,0.35); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      Candy's Sah
+      <span>Confeitaria Artesanal</span>
+    </div>
+    <div class="nav-links">
+      <a href="#sobre">Sobre</a>
+      <a href="#cardapio">Nossos Produtos</a>
+      <a href="#contato">Fale conosco</a>
+      <a href="https://wa.me/5511992781797" target="_blank" class="nav-cta">Encomendar</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg-blob"></div>
+    <div class="hero-bg-dots"></div>
+    <div class="hero-content">
+      <div class="hero-pill">✦ Confeitaria Artesanal · São Bernardo do Campo</div>
+      <h1 class="hero-title">Doces que<br>ficam na <em>memória</em></h1>
+      <div class="hero-quote">"I'll be there for you... com muito brigadeiro."</div>
+      <p class="hero-desc">
+        Brigadeiros finos, bolos decorados, kits especiais e sobremesas feitas com
+        carinho e ingredientes selecionados para os seus momentos mais especiais.
+      </p>
+
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-glow"></div>
+      <div class="hero-card-tag">Especialidade da casa</div>
+      <div class="hero-card-title">Brigadeiros Gourmet</div>
+      <div class="hero-card-sub">Tradicionais · Especiais · Premium</div>
+      <div class="hero-card-badges">
+        <span class="hero-card-badge">Pistache</span>
+        <span class="hero-card-badge">Crème Brûlée</span>
+        <span class="hero-card-badge ghost">+ 20 sabores</span>
+      </div>
+      <div class="hero-chandler">
+        "Could this BE any tastier?"
+        <span>— Chandler Bing, provavelmente</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRIP -->
+  <div class="strip">
+    <div class="strip-track">
+      <span class="strip-item">Brigadeiros Finos</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Bolos Decorados</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Kit Noiva</span><span class="strip-sep">✦</span>
+      <span class="strip-item">The Cheesecake</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Sobremesas</span><span class="strip-sep">✦</span>
+      <span class="strip-item">I'll be there for you</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Cupcakes</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Kits Presentes</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Feito com amor</span><span class="strip-sep">✦</span>
+      <!-- duplicado para loop infinito -->
+      <span class="strip-item">Brigadeiros Finos</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Bolos Decorados</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Kit Noiva</span><span class="strip-sep">✦</span>
+      <span class="strip-item">The Cheesecake</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Sobremesas</span><span class="strip-sep">✦</span>
+      <span class="strip-item">I'll be there for you</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Cupcakes</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Kits Presentes</span><span class="strip-sep">✦</span>
+      <span class="strip-item">Feito com amor</span><span class="strip-sep">✦</span>
+    </div>
+  </div>
+
+  <!-- SOBRE -->
+  <section class="sobre" id="sobre">
+    <div class="eyebrow">Quem somos</div>
+    <h2 class="sec-title">A Sabrina e o amor<br>pela <em>confeitaria</em></h2>
+    <div class="sobre-quote">
+      <p>"Welcome to the real world. It sucks. You're gonna love it." — mas primeiro, um brigadeiro.</p>
+      <span>— Monica Geller entenderia</span>
+    </div>
+    <p>
+      A Candy's Sah nasceu da paixão de Sabrina pela confeitaria artesanal. Cada peça é pensada,
+      moldada e finalizada com atenção aos mínimos detalhes — porque acreditamos que um doce bom
+      precisa ser bonito primeiro.
+    </p>
+    <p>
+      Trabalhamos com insumos de alta qualidade para entregar experiências que ficam na memória,
+      seja num casamento, aniversário ou presente especial.
+    </p>
+    <div class="sobre-stats">
+      <div class="stat">
+        <div class="stat-val">100%</div>
+        <div class="stat-label">Artesanal</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">3 dias</div>
+        <div class="stat-label">Prazo mínimo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDÁPIO -->
+  <section class="kits" id="cardapio">
+    <div class="eyebrow" style="color:var(--amarelo)">Nossos produtos</div>
+    <h2 class="sec-title" style="color:#fff">"The One Where Everyone <em>Keeps Coming Back</em>"</h2>
+    <p style="font-size:.88rem;color:rgba(255,255,255,.55);margin-bottom:2rem;max-width:520px;line-height:1.8">
+      Os queridinhos que a galera nunca para de pedir. Feitos com carinho, ingredientes selecionados e muito capricho.
+    </p>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-bestseller-tag">⭐ Best Seller</div>
+        <span class="card-friends">"The One with the Pistachio"</span>
+        <div class="card-nome">Brigadeiro de Pistache</div>
+        <div class="card-desc">O queridinho da casa. Pistache com confeito ou semente — premium do jeito que a Monica faria.</div>
+        <span class="card-badge badge-amarelo">R$ 5,30 – 5,50 un.</span>
+      </div>
+
+      <div class="card">
+        <div class="card-bestseller-tag">⭐ Best Seller</div>
+        <span class="card-friends">"The One with the Cheesecake"</span>
+        <div class="card-nome">Cheesecake de Mirtilo</div>
+        <div class="card-desc">Bom o suficiente pra comer no corredor — Ross e Chandler confirmariam. Calda de mirtilo ou frutas vermelhas.</div>
+        <span class="card-badge badge-roxo">R$ 140,00</span>
+      </div>
+
+      <div class="card">
+        <div class="card-bestseller-tag">⭐ Best Seller</div>
+        <span class="card-friends">"The One with the Proposal"</span>
+        <div class="card-nome">Kit com Chandon</div>
+        <div class="card-desc">Mini Chandon + 6 brigadeiros 20g. Para os momentos que merecem uma celebração à altura.</div>
+        <span class="card-badge badge-amarelo">R$ 120,00</span>
+      </div>
+
+      <div class="card">
+        <div class="card-bestseller-tag">⭐ Best Seller</div>
+        <span class="card-friends">"The One Everyone Wants"</span>
+        <div class="card-nome">Bolo de Pote</div>
+        <div class="card-desc">200g de felicidade em potinho. Massa baunilha ou chocolate, recheios irresistíveis. Perfeito pra qualquer ocasião.</div>
+        <span class="card-badge badge-roxo">R$ 18,00 · R$ 15,00 c/ 50+</span>
+      </div>
+
+      <div class="card">
+        <div class="card-bestseller-tag">⭐ Best Seller</div>
+        <span class="card-friends">"We Were on a Break... cake"</span>
+        <div class="card-nome">Bem-casado</div>
+        <div class="card-desc">Doce tradicional com recheio de doce de leite em embalagem delicada. Porque nem todo break dura para sempre.</div>
+        <span class="card-badge badge-roxo">R$ 6,00 un.</span>
+      </div>
+
+      <div class="card">
+        <div class="card-bestseller-tag">⭐ Best Seller</div>
+        <span class="card-friends">"The One Phoebe Can't Stop Eating"</span>
+        <div class="card-nome">Cupcake OvoMaltine</div>
+        <div class="card-desc">Massa chocolate c/ crocante de Ovomaltine, recheio cremoso e cobertura de brigadeiro. Vicia fácil — Phoebe avisou.</div>
+        <span class="card-badge badge-amarelo">R$ 9,00 un.</span>
+      </div>
+
+      <div class="card card-full" style="text-align:left;padding:1.8rem 2rem;background:rgba(255,255,255,.07);border:1px solid rgba(244,200,66,.25);border-top:4px solid var(--amarelo)">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem;width:100%">
+          <div>
+            <div style="font-family:'Libre Baskerville',serif;font-style:italic;font-size:1.15rem;color:#fff;margin-bottom:.4rem">
+              Esses são só os favoritos...
+            </div>
+            <div style="font-size:.85rem;color:rgba(255,255,255,.55)">
+              No cardápio completo tem brigadeiros em 3 tiers, kits especiais, sobremesas na travessa, cupcakes e muito mais.
+            </div>
+          </div>
+          <a
+            href="cardapio.html"
+            style="background:var(--amarelo);color:var(--text-dark);padding:.85rem 1.8rem;border-radius:8px;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;font-weight:700;white-space:nowrap;flex-shrink:0"
+          >Ver cardápio completo →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="contato" id="contato">
+    <div class="eyebrow">Fale conosco</div>
+    <h2 class="sec-title">Vamos criar algo <em>especial</em></h2>
+    <div class="contato-quote">
+      <div class="contato-quote-text">"I'll be there for you..."</div>
+      <div class="contato-quote-sub">A Sabrina está esperando sua encomenda</div>
+    </div>
+    <p>
+      Todas as encomendas são feitas pelo WhatsApp com no mínimo 3 dias de antecedência.
+      Urgências têm taxa de 10% sobre o valor total.
+    </p>
+    <a class="wpp-btn" href="https://wa.me/5511992781797" target="_blank">
+      Chamar no WhatsApp
+    </a>
+    <div class="info-box">
+      <div class="info-row">
+        <div class="info-label">Retirada</div>
+        <div class="info-val">Av. Moinho Fabrini, 385 · Jardim Independência<br>São Bernardo do Campo, SP · 09861-160</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Instagram</div>
+        <div class="info-val">@candys_sah</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">WhatsApp</div>
+        <div class="info-val">(11) 99278-1797</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Pagamento</div>
+        <div class="info-val">PIX · Cartão · Dinheiro</div>
+        <div class="info-note">50% na confirmação · PIX CNPJ 51028662000100</div>
+      </div>
+      <div class="info-row">
+        <div class="info-label">Prazo</div>
+        <div class="info-val">Mínimo 3 dias de antecedência</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYER -->
+  <div style="background:var(--roxo-dark);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:3px solid var(--amarelo)">
+    <div style="display:flex;flex-direction:column;gap:3px">
+      <span style="font-family:'Libre Baskerville',serif;font-style:italic;font-size:16px;color:#fff">"I'll be there for you"</span>
+      <span style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4)">The Rembrandts · Friends Theme</span>
+    </div>
+    <iframe
+      width="300" height="80"
+      scrolling="no"
+      frameborder="no"
+      allow="autoplay"
+      src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/226161306&color=%236B4C9A&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false"
+      style="border-radius:8px;flex-shrink:0"
+      title="Friends Theme"
+    ></iframe>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Candy's Sah</div>
+    <div class="footer-friends">"I'll be there for you" · desde o primeiro brigadeiro</div>
+    <div class="footer-copy">Confeitaria artesanal · São Bernardo do Campo, SP</div>
+  </footer>
+
+</body>
+</html>
