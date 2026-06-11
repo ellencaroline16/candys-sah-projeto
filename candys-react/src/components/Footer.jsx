@@ -19,7 +19,7 @@ export default function Footer() {
             rel="noreferrer"
             className="text-white/45 hover:text-amarelo transition-colors duration-300 font-semibold"
           >
-            Ellen Caroline Mergulhão
+            Ellen Silva
           </a>
           {" "}· 2026
         </p>
