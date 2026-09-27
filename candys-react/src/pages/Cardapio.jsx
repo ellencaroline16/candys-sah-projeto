@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const categorias = [
   { id: "brigadeiros", label: "Brigadeiros" },
   { id: "presentes", label: "Presentes" },
-  { id: "kits", label: "Kits c/ Bebidas" },
-  { id: "infantis", label: "Kits Infantis" },
+  { id: "kits", label: "Kits" },
+  { id: "infantis", label: "Infantis" },
   { id: "finos", label: "Doces Finos" },
   { id: "cupcakes", label: "Cupcakes" },
   { id: "bolos", label: "Bolos" },
@@ -13,105 +13,53 @@ const categorias = [
   { id: "cheesecake", label: "Cheesecake" },
 ];
 
-function SecaoHeader({ eyebrow, titulo, friends }) {
-  return (
-    <div className="mb-8">
-      <p className="text-xs font-bold tracking-widest uppercase text-roxo mb-1">{eyebrow}</p>
-      <h2 className="font-serif text-3xl md:text-4xl font-normal leading-tight mb-1">
-        {titulo}
-      </h2>
-      {friends && (
-        <p className="font-serif italic text-roxo-light text-base">{friends}</p>
-      )}
-    </div>
-  );
-}
-
-function TierBadge({ label, cor }) {
-  const cores = {
-    roxo: "bg-roxo text-white",
-    amarelo: "bg-amarelo text-gray-900",
-    light: "bg-roxo-light text-white",
-  };
-  return (
-    <span className={`text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full ${cores[cor] || cores.roxo}`}>
-      {label}
-    </span>
-  );
-}
-
 function SaboresGrid({ sabores, premium }) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-3">
+    <div className="flex flex-wrap gap-2 mt-3">
       {sabores.map((s) => (
-        <div
+        <span
           key={s}
-          className={`rounded-xl px-4 py-3 text-sm font-medium border ${
+          className={`text-sm px-3 py-1.5 rounded-full border font-medium ${
             premium
-              ? "bg-amarelo-pale border-amarelo/30 text-gray-700"
-              : "bg-creme border-creme-dark text-gray-600"
+              ? "bg-verde-pale border-verde/40 text-verde-dark"
+              : "bg-white border-creme-dark text-gray-600"
           }`}
         >
           {s}
-        </div>
+        </span>
       ))}
     </div>
   );
 }
 
-function TabelaPreco({ linhas }) {
+function PrecoRow({ desc, preco, alt }) {
   return (
-    <div className="mt-4 rounded-xl overflow-hidden border border-creme-dark">
-      {linhas.map((l, i) => (
-        <div
-          key={i}
-          className={`flex justify-between items-center px-5 py-3.5 text-base ${
-            i % 2 === 0 ? "bg-white" : "bg-creme"
-          } border-b border-creme-dark last:border-0`}
-        >
-          <span className="text-gray-600">{l.desc}</span>
-          <span className="font-serif font-bold text-roxo whitespace-nowrap ml-4">{l.preco}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function ProdutoCard({ nome, desc, preco, note, amarelo }) {
-  return (
-    <div className={`bg-white rounded-2xl p-5 border-t-4 border-1.5 border-creme-dark ${amarelo ? "border-t-amarelo" : "border-t-roxo"}`}>
-      <h4 className="font-serif text-lg text-gray-900 mb-2 leading-snug">{nome}</h4>
-      {desc && <p className="text-gray-500 text-sm leading-relaxed mb-3">{desc}</p>}
-      {preco && <p className="font-serif font-bold text-roxo text-base">{preco}</p>}
-      {note && <p className="text-gray-400 text-xs mt-1">{note}</p>}
+    <div className={`flex justify-between items-center px-4 py-3 text-sm ${alt ? "bg-creme" : "bg-white"} border-b border-creme-dark last:border-0`}>
+      <span className="text-gray-600">{desc}</span>
+      <span className="font-serif font-bold text-rosa ml-4 whitespace-nowrap">{preco}</span>
     </div>
   );
 }
 
 export default function Cardapio() {
   const [ativa, setAtiva] = useState("brigadeiros");
-  const navRef = useRef(null);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  const scrollToSection = (id) => {
+  const scrollTo = (id) => {
     setAtiva(id);
     const el = document.getElementById(id);
     if (el) {
-      const offset = 130;
-      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      const top = el.getBoundingClientRect().top + window.scrollY - 120;
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
 
   useEffect(() => {
     const handler = () => {
-      const offset = 160;
       for (const cat of [...categorias].reverse()) {
         const el = document.getElementById(cat.id);
-        if (el && el.getBoundingClientRect().top <= offset) {
+        if (el && el.getBoundingClientRect().top <= 150) {
           setAtiva(cat.id);
           break;
         }
@@ -122,76 +70,65 @@ export default function Cardapio() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-creme">
+    <div className="min-h-screen" style={{ background: "#FDFAF3" }}>
 
-      {/* CAPA */}
-      <div className="bg-roxo-dark relative overflow-hidden py-16 px-6 text-center">
-        <div className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: "radial-gradient(circle, #F4C842 1.5px, transparent 1.5px)", backgroundSize: "22px 22px" }} />
-        <div className="relative z-10 max-w-2xl mx-auto">
-          <span className="inline-block bg-amarelo text-gray-900 text-xs font-bold tracking-widest uppercase px-4 py-2 rounded-full mb-5">
-            ✦ Cardápio 2026
-          </span>
-          <h1 className="font-serif italic text-white text-5xl md:text-6xl mb-3">Candy's Sah</h1>
-          <p className="text-white/40 text-sm tracking-widest uppercase mb-6">
-            Confeitaria Artesanal · São Bernardo do Campo
-          </p>
-          <div className="w-14 h-1 bg-amarelo mx-auto mb-6" />
-          <p className="font-serif italic text-white/70 text-lg leading-relaxed mb-1">
-            "I'll be there for you... com muito brigadeiro."
-          </p>
-          <p className="text-white/30 text-xs tracking-widest uppercase">
-            — porque toda boa história tem um doce no meio
-          </p>
-          <div className="flex justify-center gap-8 mt-8 flex-wrap">
-            <div className="text-center">
-              <p className="text-white/80 text-sm font-semibold">@candys_sah</p>
-              <p className="text-white/40 text-xs">Instagram</p>
-            </div>
-            <div className="text-center">
-              <p className="text-white/80 text-sm font-semibold">(11) 99278-1797</p>
-              <p className="text-white/40 text-xs">WhatsApp</p>
-            </div>
-            <div className="text-center">
-              <p className="text-white/80 text-sm font-semibold">São Bernardo do Campo, SP</p>
-              <p className="text-white/40 text-xs">Retirada & Entrega</p>
-            </div>
+      {/* CAPA compacta */}
+      <div className="bg-rosa-dark relative overflow-hidden">
+        <div className="absolute inset-0 opacity-15"
+          style={{ backgroundImage: "radial-gradient(circle, #7CC5B5 1.5px, transparent 1.5px)", backgroundSize: "20px 20px" }} />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+          <div>
+            <span className="inline-block bg-verde text-marrom text-xs font-bold tracking-widest uppercase px-3 py-1.5 rounded-full mb-4">✦ Cardápio 2026</span>
+            <h1 className="font-serif italic text-white text-5xl md:text-6xl mb-2 leading-tight">Candy's Sah</h1>
+            <p className="text-white/50 text-xs tracking-widest uppercase mb-4">Confeitaria Artesanal · São Bernardo do Campo, SP</p>
+            <p className="font-serif italic text-white/70 text-base max-w-sm leading-relaxed">
+              "I'll be there for you... com muito brigadeiro."
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 md:items-end">
+            {[
+              { label: "Instagram", val: "@candys_sah" },
+              { label: "WhatsApp", val: "(11) 99278-1797" },
+              { label: "Retirada", val: "Av. Moinho Fabrini, 385" },
+            ].map(i => (
+              <div key={i.label} className="text-right">
+                <p className="text-white/40 text-xs tracking-widest uppercase">{i.label}</p>
+                <p className="text-white/90 text-sm font-semibold">{i.val}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Banner verde informações */}
+        <div className="bg-verde">
+          <div className="max-w-5xl mx-auto px-6 py-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-3">
+            {[
+              { label: "Prazo mín.", val: "3 dias · urgência +10%" },
+              { label: "Pagamento", val: "PIX · Cartão · Dinheiro" },
+              { label: "Entrada", val: "50% na confirmação" },
+              { label: "PIX CNPJ", val: "51.028.662/0001-00" },
+              { label: "Retirada", val: "Av. Moinho Fabrini, 385" },
+              { label: "Entrega", val: "Frete sob consulta" },
+            ].map(i => (
+              <div key={i.label}>
+                <p className="text-xs font-bold text-marrom/60 uppercase tracking-wider">{i.label}</p>
+                <p className="text-sm font-semibold text-marrom leading-tight">{i.val}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* INFORMAÇÕES IMPORTANTES */}
-      <div className="bg-amarelo px-6 py-8">
-        <h3 className="font-serif italic text-gray-900 text-xl mb-5">Informações importantes</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {[
-            { label: "Prazo", val: "Mínimo 3 dias de antecedência. Urgências: +10% sobre o total." },
-            { label: "Pagamento", val: "PIX · Cartão de débito ou crédito · Dinheiro. 50% na confirmação." },
-            { label: "PIX", val: "CNPJ: 51.028.662/0001-00" },
-            { label: "Retirada", val: "Av. Moinho Fabrini, 385 · Jardim Independência · São Bernardo do Campo, SP" },
-            { label: "Entrega", val: "Frete calculado por distância. Consulte pelo WhatsApp." },
-            { label: "Quantidade mínima", val: "Consultar para alguns itens antes de confirmar o pedido." },
-          ].map((i) => (
-            <div key={i.label} className="bg-white/50 rounded-xl px-5 py-4">
-              <p className="text-xs font-bold tracking-widest uppercase text-gray-800 mb-1">{i.label}</p>
-              <p className="text-gray-700 text-sm leading-relaxed">{i.val}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* NAV INTERNA FIXA */}
-      <div ref={navRef} className="sticky top-0 z-40 bg-white border-b-2 border-amarelo shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 overflow-x-auto">
-          <div className="flex gap-1 py-3 whitespace-nowrap">
+      {/* NAV INTERNA STICKY */}
+      <div className="sticky top-0 z-40 bg-white border-b-2 border-verde shadow-sm">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex gap-0.5 py-2 overflow-x-auto scrollbar-none">
             {categorias.map((c) => (
               <button
                 key={c.id}
-                onClick={() => scrollToSection(c.id)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold tracking-wide transition whitespace-nowrap ${
-                  ativa === c.id
-                    ? "bg-roxo text-white"
-                    : "text-gray-500 hover:bg-roxo-pale hover:text-roxo"
+                onClick={() => scrollTo(c.id)}
+                className={`px-4 py-2 rounded-full text-xs font-bold tracking-wide uppercase transition whitespace-nowrap ${
+                  ativa === c.id ? "bg-rosa text-white" : "text-gray-500 hover:bg-rosa-pale hover:text-rosa"
                 }`}
               >
                 {c.label}
@@ -201,254 +138,318 @@ export default function Cardapio() {
         </div>
       </div>
 
-      {/* CONTEÚDO */}
-      <div className="max-w-6xl mx-auto px-6 py-12 space-y-20">
+      <div className="max-w-5xl mx-auto px-6 py-10 space-y-0">
 
-        {/* BRIGADEIROS */}
-        <section id="brigadeiros">
-          <SecaoHeader
-            eyebrow="The One With the Brigadeiro"
-            titulo={<>Brigadeiros <em className="italic text-roxo">Gourmet</em></>}
-            friends='"Could this BE any tastier?" — Chandler Bing, provavelmente'
-          />
+        {/* ── BRIGADEIROS ── */}
+        <section id="brigadeiros" className="py-10 border-b-2 border-creme-dark">
+          <div className="flex items-baseline gap-3 mb-1">
+            <p className="text-xs font-bold tracking-widest uppercase text-rosa">The One With the Brigadeiro</p>
+          </div>
+          <h2 className="font-serif text-3xl font-normal mb-1">Brigadeiros <em className="italic text-rosa">Gourmet</em></h2>
+          <p className="font-serif italic text-sm text-rosa-light mb-6">"Could this BE any tastier?" — Chandler Bing, provavelmente</p>
 
-          {/* Tradicionais */}
-          <div className="mb-8">
-            <div className="flex items-center gap-4 mb-4">
-              <TierBadge label="Tradicionais" cor="roxo" />
-              <div className="flex-1 h-px bg-creme-dark" />
-              <span className="font-serif text-roxo text-base whitespace-nowrap">R$ 4,80 un. · R$ 4,60 c/ 12+</span>
+          {/* Tier Tradicionais */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="bg-rosa text-white text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full">Tradicionais</span>
+              <span className="text-xs text-gray-400">R$ 4,80 un. · R$ 4,60 c/ 12+</span>
             </div>
             <SaboresGrid sabores={["Cacau 100% c/ confeito ao leite", "Beijinho"]} />
           </div>
 
-          {/* Especiais */}
-          <div className="mb-8">
-            <div className="flex items-center gap-4 mb-4 flex-wrap">
-              <TierBadge label="Especiais" cor="light" />
-              <div className="flex-1 h-px bg-creme-dark" />
-              <span className="font-serif text-roxo text-base whitespace-nowrap">R$ 5,00 un. · R$ 4,80 c/ 12+</span>
+          {/* Tier Especiais */}
+          <div className="mb-6">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="bg-rosa-light text-white text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full">Especiais</span>
+              <span className="text-xs text-gray-400">R$ 5,00 un. · R$ 4,80 c/ 12+</span>
             </div>
             <SaboresGrid sabores={["Tradicional Meio Amargo","Cacau 70%","Amendoim","Confete","Chocolate Branco","Maracujá","Prestígio","Limão","Ninho","Moranguinho","Casadinho Ninho c/ Morango","Casadinho Ninho c/ Chocolate"]} />
           </div>
 
-          {/* Premium */}
+          {/* Tier Premium */}
           <div className="mb-6">
-            <div className="flex items-center gap-4 mb-4 flex-wrap">
-              <TierBadge label="Premium" cor="amarelo" />
-              <div className="flex-1 h-px bg-creme-dark" />
-              <span className="font-serif text-roxo text-base whitespace-nowrap">R$ 5,30 un. · R$ 5,00 c/ 12+</span>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="bg-verde text-marrom text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full">Premium</span>
+              <span className="text-xs text-gray-400">R$ 5,30 un. · R$ 5,00 c/ 12+</span>
             </div>
             <SaboresGrid premium sabores={["Pistache c/ confeito pistache","Pistache c/ semente pistache","Ninho com Nutella","Ferrero Rocher","Milho","Café","Cereja","Crème Brûlée","Romeu e Julieta","Churros c/ doce de leite","Morango c/ confeito Callebaut","Morango em flor/rosa","Brigatone"]} />
-            <p className="text-xs text-gray-400 mt-3">* Pistache c/ semente: R$ 5,50 un. · R$ 5,20 c/ 12+</p>
-            <p className="text-xs text-gray-400 mt-1">* Formato flor/rosa e letras disponíveis em: casadinho, moranguinho, ninho, milho, limão, maracujá e chocolate branco.</p>
+            <p className="text-xs text-gray-400 mt-2">* Pistache c/ semente: R$ 5,50 un. · R$ 5,20 c/ 12+ · Formato flor/letras disponíveis em sabores selecionados.</p>
           </div>
 
           {/* Cento */}
-          <div className="bg-roxo-pale rounded-2xl p-6 border border-roxo/10">
-            <p className="text-xs font-bold tracking-widest uppercase text-roxo mb-3">Cento de brigadeiros 15g</p>
-            <TabelaPreco linhas={[
-              { desc: "Sabores Tradicionais", preco: "R$ 250,00" },
-              { desc: "Sabores Especiais", preco: "R$ 280,00" },
-              { desc: "Sabores Premium · formato flor/letras", preco: "R$ 300,00" },
-            ]} />
-          </div>
-        </section>
-
-        {/* PRESENTES */}
-        <section id="presentes">
-          <SecaoHeader
-            eyebrow="The One With the Gift"
-            titulo={<>Brigadeiros <em className="italic text-roxo">para presente</em></>}
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div className="bg-white rounded-2xl p-5 border-t-4 border-roxo border border-creme-dark">
-              <h4 className="font-serif text-lg text-gray-900 mb-2">Tradicionais & Especiais 20g</h4>
-              <p className="text-gray-500 text-sm mb-3">Caixinha com laço e tag personalizada (+R$ 1,50)</p>
-              <TabelaPreco linhas={[
-                { desc: "2 unidades", preco: "R$ 14,00" },
-                { desc: "4 unidades", preco: "R$ 24,00" },
-                { desc: "6 unidades", preco: "R$ 34,00" },
-                { desc: "8 unidades", preco: "R$ 45,00" },
-              ]} />
+          <div className="bg-rosa-pale rounded-xl overflow-hidden border border-rosa/10">
+            <div className="bg-rosa/10 px-5 py-2.5">
+              <p className="text-xs font-bold tracking-widest uppercase text-rosa">Cento de brigadeiros 15g</p>
             </div>
-            <div className="bg-white rounded-2xl p-5 border-t-4 border-amarelo border border-creme-dark">
-              <h4 className="font-serif text-lg text-gray-900 mb-2">Premium 20g · flor e letras</h4>
-              <p className="text-gray-500 text-sm mb-3">Caixinha com laço e tag personalizada (+R$ 1,50)</p>
-              <TabelaPreco linhas={[
-                { desc: "2 unidades", preco: "R$ 15,00" },
-                { desc: "4 unidades", preco: "R$ 26,00" },
-                { desc: "6 unidades", preco: "R$ 37,00" },
-                { desc: "8 unidades", preco: "R$ 48,00" },
-              ]} />
-            </div>
-            <div className="bg-white rounded-2xl p-5 border-t-4 border-roxo border border-creme-dark">
-              <h4 className="font-serif text-lg text-gray-900 mb-2">Caixa unitária gourmet c/ laço e tag</h4>
-              <p className="text-gray-500 text-sm mb-3">Brigadeiro gourmet em caixa individual personalizada</p>
-              <TabelaPreco linhas={[
-                { desc: "Até 19 un.", preco: "R$ 6,80 cada" },
-                { desc: "20+ un.", preco: "R$ 6,60 cada" },
-                { desc: "60+ un.", preco: "R$ 6,20 cada" },
-                { desc: "100+ un.", preco: "R$ 5,80 cada" },
-              ]} />
+            <div className="divide-y divide-creme-dark">
+              <PrecoRow desc="Sabores Tradicionais" preco="R$ 250,00" alt />
+              <PrecoRow desc="Sabores Especiais" preco="R$ 280,00" />
+              <PrecoRow desc="Sabores Premium · formato flor/letras" preco="R$ 300,00" alt />
             </div>
           </div>
         </section>
 
-        {/* KITS COM BEBIDAS */}
-        <section id="kits" className="bg-roxo-dark rounded-3xl p-8 md:p-10">
-          <SecaoHeader
-            eyebrow="The One With the Perfect Gift"
-            titulo={<span className="text-white">Kits com <em className="italic text-amarelo">bebidas</em></span>}
-            friends="Todos acompanham 6 brigadeiros 20g"
-          />
-          <div className="grid sm:grid-cols-3 gap-5 mt-2">
+        {/* ── PRESENTES ── */}
+        <section id="presentes" className="py-10 border-b-2 border-creme-dark">
+          <p className="text-xs font-bold tracking-widest uppercase text-rosa mb-1">The One With the Gift</p>
+          <h2 className="font-serif text-3xl font-normal mb-6">Brigadeiros <em className="italic text-rosa">para presente</em></h2>
+
+          <div className="grid md:grid-cols-3 gap-4">
+            {/* Card 1 */}
+            <div className="rounded-xl overflow-hidden border border-creme-dark">
+              <div className="bg-rosa px-4 py-3">
+                <p className="text-white font-semibold text-sm">Tradicionais & Especiais 20g</p>
+                <p className="text-white/60 text-xs mt-0.5">Com laço e tag: +R$ 1,50</p>
+              </div>
+              <div className="divide-y divide-creme-dark">
+                <PrecoRow desc="2 unidades" preco="R$ 14,00" alt />
+                <PrecoRow desc="4 unidades" preco="R$ 24,00" />
+                <PrecoRow desc="6 unidades" preco="R$ 34,00" alt />
+                <PrecoRow desc="8 unidades" preco="R$ 45,00" />
+              </div>
+            </div>
+            {/* Card 2 */}
+            <div className="rounded-xl overflow-hidden border border-verde/40">
+              <div className="bg-verde px-4 py-3">
+                <p className="text-marrom font-semibold text-sm">Premium 20g · flor e letras</p>
+                <p className="text-marrom/60 text-xs mt-0.5">Com laço e tag: +R$ 1,50</p>
+              </div>
+              <div className="divide-y divide-creme-dark">
+                <PrecoRow desc="2 unidades" preco="R$ 15,00" alt />
+                <PrecoRow desc="4 unidades" preco="R$ 26,00" />
+                <PrecoRow desc="6 unidades" preco="R$ 37,00" alt />
+                <PrecoRow desc="8 unidades" preco="R$ 48,00" />
+              </div>
+            </div>
+            {/* Card 3 */}
+            <div className="rounded-xl overflow-hidden border border-creme-dark">
+              <div className="bg-rosa/10 px-4 py-3">
+                <p className="text-rosa-dark font-semibold text-sm">Caixa unitária gourmet</p>
+                <p className="text-gray-500 text-xs mt-0.5">Com laço e tag personalizada</p>
+              </div>
+              <div className="divide-y divide-creme-dark">
+                <PrecoRow desc="Até 19 un." preco="R$ 6,80 cada" alt />
+                <PrecoRow desc="20+ unidades" preco="R$ 6,60 cada" />
+                <PrecoRow desc="60+ unidades" preco="R$ 6,20 cada" alt />
+                <PrecoRow desc="100+ unidades" preco="R$ 5,80 cada" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── KITS COM BEBIDAS ── */}
+        <section id="kits" className="py-10 border-b-2 border-creme-dark">
+          <div className="bg-rosa-dark rounded-2xl overflow-hidden">
+            <div className="px-6 pt-6 pb-4">
+              <p className="text-xs font-bold tracking-widest uppercase text-verde-light mb-1">The One With the Perfect Gift</p>
+              <h2 className="font-serif text-3xl font-normal text-white mb-1">Kits com <em className="italic text-verde-light">bebidas</em></h2>
+              <p className="text-white/50 text-sm mb-0">Todos acompanham 6 brigadeiros 20g</p>
+            </div>
+            <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
+              {[
+                { icon: "🍷", nome: "Kit com Vinho", desc: "Quinta do Morgado 245ml · Tinto Seco ou Branco Suave", preco: "R$ 70,00" },
+                { icon: "🍺", nome: "Kit com Cerveja", desc: "Heineken 250ml ou Corona 210ml · outros rótulos sob consulta", preco: "R$ 65,00" },
+                { icon: "🥂", nome: "Kit com Chandon", desc: "Mini Chandon · Réserve Brut, Brut Rosé ou Passion", preco: "R$ 120,00" },
+              ].map((k) => (
+                <div key={k.nome} className="px-6 py-5 flex items-start gap-4">
+                  <span className="text-3xl shrink-0">{k.icon}</span>
+                  <div>
+                    <p className="font-serif text-white text-lg mb-1">{k.nome}</p>
+                    <p className="text-white/55 text-xs leading-relaxed mb-3">{k.desc}</p>
+                    <p className="font-serif text-verde-light text-xl font-bold">{k.preco}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── KITS INFANTIS ── */}
+        <section id="infantis" className="py-10 border-b-2 border-creme-dark">
+          <p className="text-xs font-bold tracking-widest uppercase text-rosa mb-1">The One For the Kids</p>
+          <h2 className="font-serif text-3xl font-normal mb-6">Kits <em className="italic text-rosa">infantis</em></h2>
+          <div className="grid md:grid-cols-3 gap-4">
             {[
-              { icon: "🍷", nome: "Kit com Vinho", desc: "1 vinho Quinta do Morgado 245ml · Tinto Seco ou Branco Suave", preco: "R$ 70,00" },
-              { icon: "🍺", nome: "Kit com Cerveja", desc: "1 Heineken 250ml ou 1 Corona 210ml · Outros rótulos sob consulta", preco: "R$ 65,00" },
-              { icon: "🥂", nome: "Kit com Chandon", desc: "1 mini Chandon · Réserve Brut, Brut Rosé ou Passion", preco: "R$ 120,00" },
+              { nome: "Kit Mini Chef — Opção 1", desc: "2 cupcakes + 3 tubetes (confetes, granulado colorido e ao leite) + saco de confeitar 80g (chocolate ou ninho)", preco: "R$ 40,00", cor: "rosa" },
+              { nome: "Kit Mini Chef — Opção 2", desc: "1 mini bolo + saco de confeitar 80g + saquinho de confeitos + 3 brigadeiros (chocolate ou ninho)", preco: "R$ 40,00", cor: "rosa" },
+              { nome: "Castelo Kids", desc: "Para montar e pintar · 6 cores de guache lavável + 1 pincel + 6 brigadeiros 20g à escolha", preco: "R$ 95,00", note: "Consultar disponibilidade", cor: "verde" },
             ].map((k) => (
-              <div key={k.nome} className="bg-white/8 border border-amarelo/25 rounded-2xl p-5">
-                <span className="text-3xl mb-3 block">{k.icon}</span>
-                <h4 className="font-serif text-lg text-white mb-2">{k.nome}</h4>
-                <p className="text-white/50 text-sm leading-relaxed mb-3">{k.desc}</p>
-                <p className="font-serif text-amarelo text-lg font-bold">{k.preco}</p>
+              <div key={k.nome} className={`rounded-xl overflow-hidden border ${k.cor === "verde" ? "border-verde/40" : "border-creme-dark"}`}>
+                <div className={`px-4 py-3 ${k.cor === "verde" ? "bg-verde" : "bg-rosa"}`}>
+                  <p className={`font-semibold text-sm ${k.cor === "verde" ? "text-marrom" : "text-white"}`}>{k.nome}</p>
+                </div>
+                <div className="bg-white p-4">
+                  <p className="text-gray-500 text-sm leading-relaxed mb-3">{k.desc}</p>
+                  <p className="font-serif font-bold text-rosa text-lg">{k.preco}</p>
+                  {k.note && <p className="text-gray-400 text-xs mt-1">{k.note}</p>}
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* KITS INFANTIS */}
-        <section id="infantis">
-          <SecaoHeader
-            eyebrow="The One For the Kids"
-            titulo={<>Kits <em className="italic text-roxo">infantis</em></>}
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            <ProdutoCard nome="Kit Mini Chef — Opção 1" desc="2 cupcakes + 3 tubetes (confetes, granulado colorido e granulado ao leite) + saco de confeitar 80g" preco="R$ 40,00" />
-            <ProdutoCard nome="Kit Mini Chef — Opção 2" desc="1 mini bolo + saco de confeitar 80g + saquinho de confeitos + 3 brigadeiros" preco="R$ 40,00" />
-            <ProdutoCard nome="Castelo Kids" desc="Para montar e pintar · 6 cores de guache lavável + 1 pincel + 6 brigadeiros 20g (sabores à escolha)" preco="R$ 95,00" note="Consultar disponibilidade" amarelo />
-          </div>
-        </section>
+        {/* ── DOCES FINOS ── */}
+        <section id="finos" className="py-10 border-b-2 border-creme-dark">
+          <p className="text-xs font-bold tracking-widest uppercase text-rosa mb-1">Could this BE any finer?</p>
+          <h2 className="font-serif text-3xl font-normal mb-6">Doces <em className="italic text-rosa">Finos</em></h2>
 
-        {/* DOCES FINOS */}
-        <section id="finos">
-          <SecaoHeader
-            eyebrow="Could this BE any finer?"
-            titulo={<>Doces <em className="italic text-roxo">Finos</em></>}
-          />
-          <div className="grid sm:grid-cols-2 gap-5 mb-6">
-            <ProdutoCard nome="Camafeu de Nozes" preco="R$ 6,00 un." />
-            <ProdutoCard nome="Bem-casado" desc='"We Were on a Break... cake" · Recheio de doce de leite' preco="R$ 6,00 un." />
-          </div>
-          <div className="bg-white rounded-2xl p-6 border border-creme-dark">
-            <h4 className="font-serif italic text-xl text-gray-900 mb-1">Verrines</h4>
-            <p className="text-sm text-gray-400 mb-4">"Could this BE any creamier?" · Potinhos de vidro · sem tampa R$ 6,00 · com tampa personalizada R$ 9,00</p>
-            <SaboresGrid sabores={["Maracujá c/ ganache meio amargo","Limão c/ merengue maçaricado","Pistache c/ frutas vermelhas","Coco com abacaxi","Ninho com Nutella","Cheesecake frutas vermelhas","Cheesecake de blueberry"]} />
-          </div>
-        </section>
-
-        {/* CUPCAKES */}
-        <section id="cupcakes">
-          <SecaoHeader
-            eyebrow="Smelly Cat Cupcakes"
-            titulo={<><em className="italic text-roxo">Cupcakes</em></>}
-          />
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+          <div className="grid md:grid-cols-2 gap-4 mb-6">
             {[
-              { label: "Massas", val: "Chocolate · Baunilha" },
-              { label: "Recheios", val: "Brigadeiro chocolate · Ninho · Morango" },
-              { label: "Coberturas", val: "Brigadeiro Chocolate · Morango · Ninho · Chantininho" },
-              { label: "Toppings", val: "Kinder Bueno · Ovomaltine Rocks (+R$ 1,00)", amarelo: true },
+              { nome: "Camafeu de Nozes", preco: "R$ 6,00 un." },
+              { nome: "Bem-casado", desc: '"We Were on a Break... cake" · recheio de doce de leite', preco: "R$ 6,00 un." },
+            ].map((d) => (
+              <div key={d.nome} className="flex items-center justify-between bg-white rounded-xl px-5 py-4 border border-creme-dark">
+                <div>
+                  <p className="font-serif text-lg text-gray-900">{d.nome}</p>
+                  {d.desc && <p className="font-serif italic text-xs text-rosa-light mt-0.5">{d.desc}</p>}
+                </div>
+                <span className="font-serif font-bold text-rosa text-base ml-4 whitespace-nowrap">{d.preco}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Verrines */}
+          <div className="rounded-xl overflow-hidden border border-creme-dark">
+            <div className="bg-rosa/8 border-b border-creme-dark px-5 py-3 flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <p className="font-serif italic text-gray-900 text-base">Verrines</p>
+                <p className="font-serif italic text-xs text-rosa-light">"Could this BE any creamier?"</p>
+              </div>
+              <div className="flex gap-3 text-xs text-gray-500">
+                <span className="bg-white px-3 py-1 rounded-full border border-creme-dark">Sem tampa R$ 6,00</span>
+                <span className="bg-white px-3 py-1 rounded-full border border-creme-dark">Com tampa personalizada R$ 9,00</span>
+              </div>
+            </div>
+            <div className="p-4">
+              <SaboresGrid sabores={["Maracujá c/ ganache meio amargo","Limão c/ merengue maçaricado","Pistache c/ frutas vermelhas","Coco com abacaxi","Ninho com Nutella","Cheesecake frutas vermelhas","Cheesecake de blueberry"]} />
+            </div>
+          </div>
+        </section>
+
+        {/* ── CUPCAKES ── */}
+        <section id="cupcakes" className="py-10 border-b-2 border-creme-dark">
+          <p className="text-xs font-bold tracking-widest uppercase text-rosa mb-1">Smelly Cat Cupcakes</p>
+          <h2 className="font-serif text-3xl font-normal mb-6"><em className="italic text-rosa">Cupcakes</em></h2>
+
+          {/* Specs */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            {[
+              { label: "Massas", val: "Chocolate · Baunilha", am: false },
+              { label: "Recheios", val: "Brigadeiro chocolate · Ninho · Morango", am: false },
+              { label: "Coberturas", val: "Brigadeiro Choc. · Morango · Ninho · Chantininho", am: false },
+              { label: "Toppings +R$ 1", val: "Kinder Bueno · Ovomaltine Rocks", am: true },
             ].map((i) => (
-              <div key={i.label} className={`rounded-xl p-4 border ${i.amarelo ? "bg-amarelo-pale border-amarelo/40" : "bg-creme border-creme-dark"}`}>
-                <p className={`text-xs font-bold tracking-widest uppercase mb-2 ${i.amarelo ? "text-amarelo-dark" : "text-roxo"}`}>{i.label}</p>
-                <p className="text-gray-700 text-sm leading-relaxed">{i.val}</p>
+              <div key={i.label} className={`rounded-xl p-3 border text-sm ${i.am ? "bg-verde-pale border-verde/40" : "bg-white border-creme-dark"}`}>
+                <p className={`text-xs font-bold uppercase tracking-wider mb-1 ${i.am ? "text-verde-dark" : "text-rosa"}`}>{i.label}</p>
+                <p className="text-gray-700 leading-snug">{i.val}</p>
               </div>
             ))}
           </div>
-          <div className="grid sm:grid-cols-3 gap-5">
-            <ProdutoCard nome="Cupcake" preco="R$ 8,00 · R$ 7,00 c/ 20+" note="Na caixa p/ presente: R$ 10,00" />
-            <ProdutoCard nome="Mini Cupcake" preco="R$ 6,00 · R$ 5,00 c/ 20+" note="Caixa c/ 2 un. p/ presente: R$ 14,00" />
-            <ProdutoCard nome="Cupcake OvoMaltine" desc="Massa chocolate c/ crocante de Ovomaltine, recheio cremoso e cobertura de brigadeiro" preco="R$ 9,00 · R$ 8,00 c/ 20+" note="Na caixa p/ presente: R$ 11,00" amarelo />
+
+          {/* Tabela preços */}
+          <div className="rounded-xl overflow-hidden border border-creme-dark">
+            <div className="bg-rosa/8 px-5 py-2.5 border-b border-creme-dark">
+              <p className="text-xs font-bold tracking-widest uppercase text-rosa">Tabela de preços</p>
+            </div>
+            <div className="divide-y divide-creme-dark">
+              <PrecoRow desc="Cupcake · acima de 20 un. R$ 7,00 · caixa p/ presente R$ 10,00" preco="R$ 8,00 cada" alt />
+              <PrecoRow desc="Mini Cupcake · acima de 20 un. R$ 5,00 · caixa 2 un. R$ 14,00" preco="R$ 6,00 cada" />
+              <PrecoRow desc="Cupcake OvoMaltine · acima de 20 un. R$ 8,00 · caixa p/ presente R$ 11,00" preco="R$ 9,00 cada" alt />
+            </div>
           </div>
         </section>
 
-        {/* BOLOS */}
-        <section id="bolos">
-          <SecaoHeader
-            eyebrow="How You Doin'?"
-            titulo={<><em className="italic text-roxo">Bolos</em></>}
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            <ProdutoCard nome="Bolo recheado e decorado" desc="Massas: baunilha, chocolate ou coco. Coberturas: chantininho, chantilly ou ganache. Recheios variados incluindo ninho trufado, pistache, red velvet e mais." preco="Sob consulta" note="Valor por quantidade, cobertura e decoração" />
-            <ProdutoCard nome="Mini Bolo" desc="Massa baunilha ou chocolate c/ chantininho. Recheios: chocolate trufado, ninho, brigadeiro branco c/ morango, doce de leite c/ abacaxi, prestígio." preco="R$ 80,00 · R$ 120,00 c/ 6 brigs" note="Com ganache de chocolate: R$ 140,00" />
-            <ProdutoCard nome="Bolo de Pote 200g" desc="Baunilha ou chocolate com recheios variados: brigadeiro branco c/ morango, pistache c/ frutas vermelhas, crocante de amendoim e mais." preco="R$ 18,00 · R$ 15,00 c/ 50+" amarelo />
-          </div>
-        </section>
-
-        {/* SOBREMESAS */}
-        <section id="sobremesas" className="bg-roxo-dark rounded-3xl p-8 md:p-10">
-          <SecaoHeader
-            eyebrow="The One With the Dessert"
-            titulo={<span className="text-white">Sobremesas na <em className="italic text-amarelo">Travessa</em></span>}
-            friends="Disponíveis em ~600g ou ~1,2kg"
-          />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+        {/* ── BOLOS ── */}
+        <section id="bolos" className="py-10 border-b-2 border-creme-dark">
+          <p className="text-xs font-bold tracking-widest uppercase text-rosa mb-1">How You Doin'?</p>
+          <h2 className="font-serif text-3xl font-normal mb-6"><em className="italic text-rosa">Bolos</em></h2>
+          <div className="grid md:grid-cols-3 gap-4">
             {[
-              { nome: "Banoffee Tradicional", preco: "R$ 80,00 · R$ 130,00" },
-              { nome: "Banoffee Ganache ½ Amargo", preco: "R$ 90,00 · R$ 140,00" },
-              { nome: "Pavetone de Ganache", desc: "Ao leite ou meio amargo · Sazonal", preco: "R$ 100,00 · R$ 165,00" },
-              { nome: "Bombom de Morango", desc: "Brigadeiro branco c/ ganache", preco: "R$ 95,00 · R$ 160,00" },
-              { nome: "Bombom de Uva c/ Ninho", desc: "Brigadeiro de ninho c/ ganache", preco: "R$ 85,00 · R$ 140,00" },
-              { nome: "Torta de Limão", preco: "R$ 80,00 · R$ 110,00" },
-              { nome: "Torta de Ninho Trufada", desc: "Com ganache ao leite ou meio amargo", preco: "R$ 100,00 · R$ 165,00" },
-              { nome: "Torta de Morango", preco: "R$ 90,00 · R$ 155,00" },
-            ].map((s) => (
-              <div key={s.nome} className="bg-white/8 border border-amarelo/20 rounded-2xl p-4 border-t-2 border-t-amarelo">
-                <h4 className="font-serif text-base text-white mb-1 leading-snug">{s.nome}</h4>
-                {s.desc && <p className="text-white/45 text-xs mb-2">{s.desc}</p>}
-                <p className="font-serif text-amarelo text-base font-bold">{s.preco}</p>
+              { nome: "Bolo recheado e decorado", desc: "Massas: baunilha, chocolate ou coco. Coberturas: chantininho, chantilly ou ganache. Recheios variados: ninho trufado, pistache, red velvet e mais.", preco: "Sob consulta", note: "Valor por qtde, cobertura e decoração", am: false },
+              { nome: "Mini Bolo", desc: "Massa baunilha ou chocolate c/ chantininho. Recheios: chocolate trufado, ninho, brigadeiro branco c/ morango, doce de leite c/ abacaxi, prestígio.", preco: "R$ 80,00", note: "Com 6 brigs R$ 120,00 · Ganache R$ 140,00", am: false },
+              { nome: "Bolo de Pote 200g", desc: "Baunilha ou chocolate. Recheios: brigadeiro branco c/ morango, pistache c/ frutas vermelhas, crocante de amendoim, doce de leite c/ abacaxi e mais.", preco: "R$ 18,00", note: "Acima de 50 un. R$ 15,00 cada", am: true },
+            ].map((b) => (
+              <div key={b.nome} className={`rounded-xl overflow-hidden border ${b.am ? "border-verde/40" : "border-creme-dark"}`}>
+                <div className={`px-4 py-3 ${b.am ? "bg-verde" : "bg-rosa"}`}>
+                  <p className={`font-serif text-base font-normal ${b.am ? "text-marrom" : "text-white"}`}>{b.nome}</p>
+                </div>
+                <div className="bg-white p-4">
+                  <p className="text-gray-500 text-sm leading-relaxed mb-3">{b.desc}</p>
+                  <p className="font-serif font-bold text-rosa text-lg">{b.preco}</p>
+                  {b.note && <p className="text-gray-400 text-xs mt-1">{b.note}</p>}
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* CHEESECAKE */}
-        <section id="cheesecake">
-          <SecaoHeader
-            eyebrow="The Cheesecake"
-            titulo={<><em className="italic text-roxo">Cheesecake</em></>}
-            friends='"Bom o suficiente pra comer no corredor" — Ross e Chandler saberiam'
-          />
-          <div className="grid sm:grid-cols-3 gap-5">
-            <ProdutoCard nome="Calda de Mirtilo ou Frutas Vermelhas" preco="R$ 140,00" amarelo />
-            <ProdutoCard nome="Calda de Morango" preco="R$ 130,00" />
-            <ProdutoCard nome="Calda de Goiabada" preco="R$ 120,00" />
+        {/* ── SOBREMESAS ── */}
+        <section id="sobremesas" className="py-10 border-b-2 border-creme-dark">
+          <div className="bg-rosa-dark rounded-2xl overflow-hidden">
+            <div className="px-6 pt-6 pb-4 border-b border-white/10">
+              <p className="text-xs font-bold tracking-widest uppercase text-verde-light mb-1">The One With the Dessert</p>
+              <h2 className="font-serif text-3xl font-normal text-white mb-0.5">Sobremesas na <em className="italic text-verde-light">Travessa</em></h2>
+              <p className="text-white/50 text-sm">Disponíveis em ~600g ou ~1,2kg</p>
+            </div>
+            <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-white/10">
+              <div className="divide-y divide-white/10">
+                {[
+                  { nome: "Banoffee Tradicional", preco: "R$ 80,00 · R$ 130,00" },
+                  { nome: "Banoffee Ganache ½ Amargo", preco: "R$ 90,00 · R$ 140,00" },
+                  { nome: "Pavetone de Ganache ✦ sazonal", preco: "R$ 100,00 · R$ 165,00" },
+                  { nome: "Bombom de Morango c/ Ganache", preco: "R$ 95,00 · R$ 160,00" },
+                ].map((s, i) => (
+                  <div key={s.nome} className={`flex justify-between items-center px-5 py-4 ${i % 2 === 0 ? "bg-white/5" : ""}`}>
+                    <p className="text-white/85 text-sm">{s.nome}</p>
+                    <p className="font-serif text-verde-light text-sm font-bold ml-4 whitespace-nowrap">{s.preco}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="divide-y divide-white/10">
+                {[
+                  { nome: "Bombom de Uva c/ Brigadeiro Ninho", preco: "R$ 85,00 · R$ 140,00" },
+                  { nome: "Torta de Limão", preco: "R$ 80,00 · R$ 110,00" },
+                  { nome: "Torta de Ninho Trufada c/ Ganache", preco: "R$ 100,00 · R$ 165,00" },
+                  { nome: "Torta de Morango", preco: "R$ 90,00 · R$ 155,00" },
+                ].map((s, i) => (
+                  <div key={s.nome} className={`flex justify-between items-center px-5 py-4 ${i % 2 === 0 ? "bg-white/5" : ""}`}>
+                    <p className="text-white/85 text-sm">{s.nome}</p>
+                    <p className="font-serif text-verde-light text-sm font-bold ml-4 whitespace-nowrap">{s.preco}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── CHEESECAKE ── */}
+        <section id="cheesecake" className="py-10">
+          <p className="text-xs font-bold tracking-widest uppercase text-rosa mb-1">The Cheesecake</p>
+          <h2 className="font-serif text-3xl font-normal mb-1"><em className="italic text-rosa">Cheesecake</em></h2>
+          <p className="font-serif italic text-sm text-rosa-light mb-6">"Bom o suficiente pra comer no corredor" — Ross e Chandler saberiam</p>
+          <div className="rounded-xl overflow-hidden border border-creme-dark">
+            <PrecoRow desc="Calda de Mirtilo ou Frutas Vermelhas" preco="R$ 140,00" alt />
+            <PrecoRow desc="Calda de Morango" preco="R$ 130,00" />
+            <PrecoRow desc="Calda de Goiabada" preco="R$ 120,00" alt />
           </div>
         </section>
 
       </div>
 
-      {/* FOOTER DO CARDÁPIO */}
-      <div className="bg-roxo-dark mt-12 py-10 px-6 text-center">
-        <p className="font-serif italic text-white text-2xl mb-2">Candy's Sah</p>
-        <p className="font-serif italic text-amarelo text-base mb-6">
-          "I'll be there for you" · desde o primeiro brigadeiro
-        </p>
+      {/* FOOTER */}
+      <div className="bg-rosa-dark mt-4 py-10 px-6 text-center">
+        <p className="font-serif italic text-white text-2xl mb-1">Candy's Sah</p>
+        <p className="font-serif italic text-verde-light text-sm mb-6">"I'll be there for you" · desde o primeiro brigadeiro</p>
         <a
           href="https://wa.me/5511992781797"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 bg-roxo text-white px-8 py-4 rounded-xl font-bold text-sm tracking-wide uppercase transition hover:bg-roxo-light mb-8"
+          className="inline-flex items-center gap-2 bg-verde hover:bg-verde-dark transition text-marrom hover:text-white px-8 py-3 rounded-xl font-bold text-sm tracking-wide uppercase mb-6"
         >
           Fazer encomenda no WhatsApp
         </a>
-        <div className="border-t border-white/10 pt-6">
-          <Link
-            to="/"
-            className="text-white/40 text-sm hover:text-white/70 transition"
-          >
+        <div className="border-t border-white/10 pt-5">
+          <Link to="/" className="text-white/50 text-sm hover:text-white/80 transition">
             ← Voltar ao site
           </Link>
         </div>

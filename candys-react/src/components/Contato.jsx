@@ -11,21 +11,21 @@ export default function Contato() {
     <section id="contato" className="bg-white py-24 px-6">
       <div className="max-w-6xl mx-auto">
 
-        <p className="text-xs font-bold tracking-widest uppercase text-roxo mb-2">
+        <p className="text-xs font-bold tracking-widest uppercase text-rosa mb-2">
           Fale conosco
         </p>
         <h2 className="font-serif text-4xl md:text-5xl font-normal mb-12 leading-tight">
-          Vamos criar algo <em className="italic text-roxo">especial</em>
+          Vamos criar algo <em className="italic text-rosa">especial</em>
         </h2>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Esquerda */}
           <div>
-            <div className="bg-roxo rounded-2xl p-8 text-center mb-8">
+            <div className="bg-rosa-dark rounded-2xl p-8 text-center mb-8">
               <p className="font-serif italic text-white text-2xl mb-2">
                 "I'll be there for you..."
               </p>
-              <p className="text-white/50 text-sm tracking-widest uppercase">
+              <p className="text-white/60 text-sm tracking-widest uppercase">
                 A Sabrina está esperando sua encomenda
               </p>
             </div>
@@ -40,20 +40,20 @@ export default function Contato() {
               href="https://wa.me/5511992781797"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-3 bg-roxo text-white px-8 py-4 rounded-xl font-bold text-base tracking-wide uppercase transition hover:bg-roxo-dark"
+              className="inline-flex items-center gap-3 bg-rosa-dark text-white px-8 py-4 rounded-xl font-bold text-base tracking-wide uppercase transition hover:bg-rosa"
             >
               Chamar no WhatsApp
             </a>
           </div>
 
           {/* Direita — informações */}
-          <div className="bg-roxo-pale rounded-2xl p-8 border border-roxo/10">
+          <div className="bg-rosa-pale rounded-2xl p-8 border border-rosa/10">
             {infos.map((info) => (
               <div
                 key={info.label}
-                className="py-4 border-b border-roxo/10 last:border-0 last:pb-0 first:pt-0"
+                className="py-4 border-b border-rosa/10 last:border-0 last:pb-0 first:pt-0"
               >
-                <p className="text-xs font-bold tracking-widest uppercase text-roxo mb-1">
+                <p className="text-xs font-bold tracking-widest uppercase text-rosa mb-1">
                   {info.label}
                 </p>
                 <p className="text-gray-900 text-base font-semibold">{info.val}</p>

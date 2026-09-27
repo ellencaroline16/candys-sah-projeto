@@ -4,25 +4,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        roxo: {
-          DEFAULT: '#6B4C9A',
-          dark: '#4E3572',
-          light: '#9B7BC8',
-          pale: '#F0EBF8',
+        verde: {
+          DEFAULT: '#7CC5B5',
+          dark:    '#5BA898',
+          light:   '#A8DAD0',
+          pale:    '#E8F4F2',
         },
-        amarelo: {
-          DEFAULT: '#F4C842',
-          dark: '#D4A820',
-          pale: '#FDF6D8',
+        rosa: {
+          DEFAULT: '#E8829A',
+          dark:    '#C4607A',
+          light:   '#F0A0B0',
+          pale:    '#FCEEF1',
+        },
+        marrom: {
+          DEFAULT: '#2C1810',
+          mid:     '#6B3A2A',
+          light:   '#A0614A',
+          muted:   '#C49A8A',
         },
         creme: {
           DEFAULT: '#FDFAF3',
-          dark: '#F0E8D4',
+          dark:    '#F0E8D4',
         },
       },
       fontFamily: {
         serif: ['"Libre Baskerville"', 'Georgia', 'serif'],
-        sans: ['Nunito', 'sans-serif'],
+        sans:  ['Nunito', 'sans-serif'],
       },
     },
   },
